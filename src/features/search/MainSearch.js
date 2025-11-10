@@ -1,4 +1,5 @@
 import { sanitizeSearchInput } from "../../utils/security.js";
+import { detectMatchingTags } from "./TagDetector.js";
 
 /**
  * Gestion de la barre de recherche principale, solution retenue : index inversé
@@ -14,13 +15,25 @@ export const createMainSearch = (appState) => {
   let debounceTimer = null;
 
   /**
-   * Set la recherche principale
+   * Set la recherche principale avec détection automatique de tags (multi-mots)
    * @param {string} query - Terme de recherche
    */
   const performSearch = (query) => {
     // Sécuriser l'entrée utilisateur
     const sanitizedQuery = sanitizeSearchInput(query);
-    appState.setSearchQuery(sanitizedQuery);
+
+    // Détecter tous les tags correspondants dans la query
+    const matchedTags = detectMatchingTags(sanitizedQuery, appState.recipes);
+
+    if (matchedTags.length > 0) {
+      // Lever automatiquement TOUS les tags trouvés
+      matchedTags.forEach((tag) => {
+        appState.addTag(tag.type, tag.value);
+      });
+    } else {
+      // Recherche classique si aucun tag trouvé
+      appState.setSearchQuery(sanitizedQuery);
+    }
   };
 
   /**
