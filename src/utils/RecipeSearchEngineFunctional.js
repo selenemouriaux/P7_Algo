@@ -66,7 +66,7 @@ export const createRecipeSearchEngine = (recipes) => {
       return _recipes;
     }
 
-    const queryTerms = trimmedQuery.split(/\s+/);
+    const queryTerms = tokenize(trimmedQuery);
 
     if (queryTerms.length === 0) {
       return _recipes;
@@ -85,11 +85,13 @@ export const createRecipeSearchEngine = (recipes) => {
         ingredientsText,
       ].join(" ");
 
-      // Normaliser
-      const normalizedRecipeText = normalizeText(recipeText);
+      // Tokenize le texte de la recette
+      const recipeTokens = tokenize(recipeText);
 
       // Vérifier que TOUS les termes sont présents avec every()
-      return queryTerms.every((term) => normalizedRecipeText.includes(term));
+      return queryTerms.every((term) =>
+        recipeTokens.some((token) => token.includes(term))
+      );
     });
   };
 
