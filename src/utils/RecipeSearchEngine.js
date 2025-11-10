@@ -233,6 +233,7 @@ export const createRecipeSearchEngine = (recipes) => {
     return {
       totalRecipes: _recipes.length,
       uniqueWords: _index.size,
+      // Pour mot, nombre de recettes pour connâitre le total et on divise l'accumulateur par le nombre de recettes pour faire une moyenne
       avgWordsPerRecipe: (_recipes.length > 0
         ? Array.from(_index.values()).reduce((sum, set) => sum + set.size, 0) /
           _recipes.length
