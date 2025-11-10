@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "checkJs": false,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "allowImportingTsExtensions": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
