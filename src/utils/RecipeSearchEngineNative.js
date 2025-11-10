@@ -74,8 +74,7 @@ export const createRecipeSearchEngine = (recipes) => {
       return _recipes;
     }
 
-    // Split manuel avec une boucle (on pourrait faire sans split mais c'est ok)
-    const queryTerms = trimmedQuery.split(/\s+/);
+    const queryTerms = tokenize(trimmedQuery);
 
     if (queryTerms.length === 0) {
       return _recipes;
@@ -95,8 +94,8 @@ export const createRecipeSearchEngine = (recipes) => {
         recipeText += " " + recipe.ingredients[j].ingredient;
       }
 
-      // Normaliser le texte complet de la recette
-      const normalizedRecipeText = normalizeText(recipeText);
+      // Tokenize le texte de la recette
+      const recipeTokens = tokenize(recipeText);
 
       // Vérifier si TOUS les termes sont présents (AND logique)
       let allTermsMatch = true;
@@ -105,10 +104,18 @@ export const createRecipeSearchEngine = (recipes) => {
       for (let k = 0; k < queryTerms.length; k++) {
         const term = queryTerms[k];
 
-        // Vérifier si ce terme est dans le texte de la recette
-        if (!normalizedRecipeText.includes(term)) {
+        // Vérifier si ce terme est dans les tokens de la recette
+        let termFound = false;
+        for (let t = 0; t < recipeTokens.length; t++) {
+          if (recipeTokens[t].includes(term)) {
+            termFound = true;
+            break;
+          }
+        }
+
+        if (!termFound) {
           allTermsMatch = false;
-          break; // Early exit si un terme ne match pas
+          break;
         }
       }
 
