@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Les Petits Plats - Recettes de cuisine</title>
+    <meta
+      name="description"
+      content="Trouvez parmi plus de 1500 recettes du quotidien, simples et délicieuses"
+    />
+  </head>
+  <body>
+    <!-- Header avec Hero Section -->
+    <header
+      class="relative h-[500px] bg-cover bg-center"
+      style="background-image: url('/hero-image.jpg')"
+    >
+      <div class="hero-overlay absolute inset-0"></div>
+
+      <!-- Titre principal caché par remplacé visuellement par le logo
+       mais présent pour l'accessibilité et le référencement-->
+      <h1 class="sr-only">Les Petits Plats</h1>
+
+      <!-- Logo -->
+      <img
+        src="/logo.png"
+        alt="Les Petits Plats Logo"
+        class="absolute top-[50px] left-[70px] w-[180px] h-auto z-20"
+      />
+
+      <div
+        class="relative z-10 flex flex-col items-center justify-center h-full px-4"
+      >
+        <h2
+          class="font-sans text-primary-yellow text-3xl md:text-5xl text-center mb-8 uppercase max-w-4xl leading-tight"
+        >
+          Cherchez parmi plus de 1500 recettes<br />
+          du quotidien, simples et délicieuses
+        </h2>
+
+        <!-- Searchbar principale -->
+        <div class="w-full max-w-3xl relative">
+          <input
+            type="text"
+            id="main-search"
+            placeholder="Rechercher une recette, un ingrédient..."
+            class="w-full py-4 px-6 pr-16 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-yellow"
+          />
+          <button
+            id="search-button"
+            class="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-900 hover:bg-gray-800 text-white p-3 rounded-lg transition-colors"
+            aria-label="Rechercher"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+          </button>
+          <button
+            id="clear-search"
+            class="absolute right-16 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 p-2 hidden"
+            aria-label="Effacer la recherche"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+      <!-- Filtres Section -->
+      <section class="mb-8">
+        <h2 class="sr-only">Filtres de recherche</h2>
+        <div class="flex flex-wrap gap-8 items-start mb-6">
+          <!-- Dropdown Ingrédients -->
+          <div class="relative w-48">
+            <button
+              id="ingredients-dropdown-btn"
+              class="w-full bg-white px-4 py-3 rounded-lg flex items-center justify-between hover:bg-gray-50 transition-colors border border-gray-200"
+            >
+              <span class="text-gray-700 text-sm">Ingrédients</span>
+              <svg
+                class="w-5 h-5 text-gray-500 transition-transform"
+                id="ingredients-chevron"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div
+              id="ingredients-dropdown"
+              class="hidden absolute top-full mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200 z-20 max-h-80 overflow-hidden"
+            >
+              <div class="p-3 border-b border-gray-200 relative">
+                <input
+                  type="text"
+                  id="ingredients-search"
+                  placeholder=""
+                  class="w-full pl-3 pr-8 py-2 border border-gray-200 rounded focus:outline-none focus:bg-gray-50 focus:border-gray-300 text-sm transition-colors hover:bg-primary-yellow"
+                  maxlength="50"
+                />
+                <svg class="w-4 h-4 text-gray-400 absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
+              <ul
+                id="ingredients-list"
+                class="overflow-y-auto custom-scrollbar max-h-60 p-2"
+              >
+                <!-- Les ingrédients seront ajoutés dynamiquement ici -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- Dropdown Appareils -->
+          <div class="relative w-48">
+            <button
+              id="appliances-dropdown-btn"
+              class="w-full bg-white px-4 py-3 rounded-lg flex items-center justify-between hover:bg-gray-50 transition-colors border border-gray-200"
+            >
+              <span class="text-gray-700 text-sm">Appareils</span>
+              <svg
+                class="w-5 h-5 text-gray-500 transition-transform"
+                id="appliances-chevron"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+
+            <div
+              id="appliances-dropdown"
+              class="hidden absolute top-full mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200 z-20 max-h-80 overflow-hidden"
+            >
+              <div class="p-3 border-b border-gray-200 relative">
+                <input
+                  type="text"
+                  id="appliances-search"
+                  placeholder=""
+                  class="w-full pl-3 pr-8 py-2 border border-gray-200 rounded focus:outline-none focus:bg-gray-50 focus:border-gray-300 text-sm transition-colors hover:bg-primary-yellow"
+                  maxlength="50"
+                />
+                <svg class="w-4 h-4 text-gray-400 absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
+              <ul
+                id="appliances-list"
+                class="overflow-y-auto custom-scrollbar max-h-60 p-2"
+              >
+                <!-- Les appareils seront ajoutés dynamiquement ici -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- Dropdown Ustensiles -->
+          <div class="relative w-48">
+            <button
+              id="ustensils-dropdown-btn"
+              class="w-full bg-white px-4 py-3 rounded-lg flex items-center justify-between hover:bg-gray-50 transition-colors border border-gray-200"
+            >
+              <span class="text-gray-700 text-sm">Ustensiles</span>
+              <svg
+                class="w-5 h-5 text-gray-500 transition-transform"
+                id="ustensils-chevron"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+
+            <div
+              id="ustensils-dropdown"
+              class="hidden absolute top-full mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200 z-20 max-h-80 overflow-hidden"
+            >
+              <div class="p-3 border-b border-gray-200 relative">
+                <input
+                  type="text"
+                  id="ustensils-search"
+                  placeholder=""
+                  class="w-full pl-3 pr-8 py-2 border border-gray-200 rounded focus:outline-none focus:bg-gray-50 focus:border-gray-300 text-sm transition-colors hover:bg-primary-yellow"
+                  maxlength="50"
+                />
+                <svg class="w-4 h-4 text-gray-400 absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
+              <ul
+                id="ustensils-list"
+                class="overflow-y-auto custom-scrollbar max-h-60 p-2"
+              >
+                <!-- Les ustensiles seront ajoutés dynamiquement ici -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- Compteur de recettes -->
+          <div class="ml-auto flex items-center">
+            <span id="recipe-count" class="text-xl font-sans font-bold text-gray-900"
+              >50 recettes</span
+            >
+          </div>
+        </div>
+
+        <!-- Tags sélectionnés -->
+        <div id="selected-tags" class="flex flex-wrap gap-3 transition-all duration-300">
+          <!-- Les tags seront ajoutés dynamiquement ici -->
+        </div>
+      </section>
+
+      <!-- Grille de recettes -->
+      <section aria-labelledby="recipes-heading">
+        <h2 id="recipes-heading" class="sr-only">Liste des recettes</h2>
+        <div
+          id="recipes-grid"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <!-- Les cartes de recettes seront ajoutées dynamiquement ici -->
+        </div>
+      </section>
+
+      <!-- Message si aucune recette -->
+      <div id="no-results" class="hidden text-center py-16">
+        <p class="text-gray-500 text-lg">
+          Aucune recette ne correspond à vos critères de recherche.
+        </p>
+        <p class="text-gray-400 mt-2">
+          Essayez de modifier vos filtres ou votre recherche.
+        </p>
+      </div>
+
+      <!-- Pagination -->
+      <div id="pagination" class="hidden mt-12 flex flex-col items-center gap-4">
+        <!-- Info affichage -->
+        <p id="pagination-info" class="text-sm text-gray-600">
+          Affichage <span id="showing-start">1</span>-<span id="showing-end">12</span> sur <span id="total-recipes">0</span> recettes
+        </p>
+
+        <!-- Contrôles de pagination -->
+        <nav class="flex items-center gap-2" aria-label="Pagination">
+          <button
+            id="prev-page"
+            class="px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            aria-label="Page précédente"
+          >
+            ← Précédent
+          </button>
+
+          <div id="page-numbers" class="flex items-center gap-2">
+            <!-- Les numéros de page seront ajoutés dynamiquement ici -->
+          </div>
+
+          <button
+            id="next-page"
+            class="px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            aria-label="Page suivante"
+          >
+            Suivant →
+          </button>
+        </nav>
+      </div>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
